@@ -86,11 +86,14 @@ class MainActivity : AppCompatActivity() {
                 super.onPlayerError(error)
                 Log.e("Player error", error.message.toString())
 
-                Toast.makeText(
-                    applicationContext,
-                    "Access to the requested resource is forbidden",
-                    Toast.LENGTH_SHORT
-                ).show()
+
+                if (error.cause?.message?.contains("403") == true) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Access to the requested resource is forbidden",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         })
     }
