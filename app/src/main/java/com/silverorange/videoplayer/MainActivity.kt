@@ -16,11 +16,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+const val KEY_PLAY_WHEN_READY = "play_when_ready_key"
+const val KEY_CURRENT_ITEM = "current_item_key"
+const val KEY_PLAYBACK_POSITION = "playback_position_key"
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var videoList: List<Video>
+
+    private var playWhenReady = true
+    private var currentItem = 0
+    private var playbackPosition = 0L
 
     private var player: ExoPlayer? = null
 
@@ -37,7 +45,12 @@ class MainActivity : AppCompatActivity() {
             fetchVideos()
         }
 
-        initializePlayer()
+        if (savedInstanceState != null) {
+            // Get all the state information from the bundle, set it
+            playWhenReady = savedInstanceState.getBoolean(KEY_PLAYBACK_POSITION)
+            currentItem = savedInstanceState.getInt(KEY_CURRENT_ITEM)
+            playbackPosition = savedInstanceState.getLong(KEY_PLAYBACK_POSITION)
+        }
     }
 
     private suspend fun fetchVideos() {
@@ -62,6 +75,9 @@ class MainActivity : AppCompatActivity() {
                 player?.addMediaItem(mediaItem)
             }
         }
+
+        player?.playWhenReady = playWhenReady
+        player?.seekTo(currentItem, playbackPosition)
         player?.prepare()
         player?.play()
 
@@ -110,8 +126,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun releasePlayer() {
         player?.let { exoPlayer ->
+            playbackPosition = exoPlayer.currentPosition
+            currentItem = exoPlayer.currentMediaItemIndex
+            playWhenReady = exoPlayer.playWhenReady
             exoPlayer.release()
         }
         player = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_PLAY_WHEN_READY, playWhenReady)
+        outState.putInt(KEY_CURRENT_ITEM, currentItem)
+        outState.putLong(KEY_PLAYBACK_POSITION, playbackPosition)
+        super.onSaveInstanceState(outState)
     }
 }
