@@ -2,6 +2,7 @@ package com.silverorange.videoplayer
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.exoplayer2.ExoPlayer
@@ -56,8 +57,8 @@ class MainActivity : AppCompatActivity() {
         binding.playerView.player = player
 
         videoList.let {
-            if (videoList.isNotEmpty()) {
-                val mediaItem = MediaItem.fromUri(videoList.get(0).url)
+            for (videoItem in it) {
+                val mediaItem = MediaItem.fromUri(videoItem.url)
                 player?.addMediaItem(mediaItem)
             }
         }
@@ -68,6 +69,12 @@ class MainActivity : AppCompatActivity() {
             override fun onPlayerError(error: PlaybackException) {
                 super.onPlayerError(error)
                 Log.e("Player error", error.message.toString())
+
+                Toast.makeText(
+                    applicationContext,
+                    "Access to the requested resource is forbidden",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
