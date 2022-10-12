@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -65,4 +66,8 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$player_version"
     implementation "com.google.android.exoplayer:exoplayer-dash:$player_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$player_version"
+
+    //Markwon
+    def markwon_version = "4.6.2"
+    implementation "io.noties.markwon:core:$markwon_version"
 }

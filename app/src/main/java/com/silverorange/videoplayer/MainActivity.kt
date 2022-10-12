@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.util.Util
 import com.silverorange.videoplayer.databinding.ActivityMainBinding
+import io.noties.markwon.Markwon
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var videoList: List<Video>
+    lateinit var currentVideo: Video
 
     private var playWhenReady = true
     private var currentItem = 0
@@ -35,9 +37,13 @@ class MainActivity : AppCompatActivity() {
     private var job = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + job)
 
+    lateinit var markwon: Markwon
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        binding.activity = this
 
         videoList = listOf()
 
@@ -51,14 +57,17 @@ class MainActivity : AppCompatActivity() {
             currentItem = savedInstanceState.getInt(KEY_CURRENT_ITEM)
             playbackPosition = savedInstanceState.getLong(KEY_PLAYBACK_POSITION)
         }
+
+        markwon = Markwon.create(applicationContext);
+
+        currentVideo = Video("", "", "Hello", "")
     }
 
     private suspend fun fetchVideos() {
         try {
             videoList = VideoApi.retrofitMoshiService.getAllVideos()
+            renderVideoDetails(0)
             initializePlayer()
-            binding.video = videoList[0]
-            binding.invalidateAll()
         } catch (e: Exception) {
             Log.e("GetVideos API error", e.message.toString())
             videoList = listOf()
@@ -93,6 +102,13 @@ class MainActivity : AppCompatActivity() {
                         "Access to the requested resource is forbidden",
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+            }
+
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                super.onMediaItemTransition(mediaItem, reason)
+                if (mediaItem != null) {
+                    renderVideoDetails(player?.currentMediaItemIndex?:-1)
                 }
             }
         })
@@ -142,5 +158,14 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(KEY_CURRENT_ITEM, currentItem)
         outState.putLong(KEY_PLAYBACK_POSITION, playbackPosition)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun renderVideoDetails(index : Int){
+        if(index == -1){
+            Log.e("MediaItem index", "-1")
+        } else {
+            currentVideo = videoList[index]
+            binding.invalidateAll()
+        }
     }
 }

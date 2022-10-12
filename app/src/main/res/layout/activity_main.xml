@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="video"
-            type="com.silverorange.videoplayer.Video" />
+            name="activity"
+            type="com.silverorange.videoplayer.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
-                    android:text="@{video.title}"
+                    app:text="@{activity.currentVideo.title}"
+                    app:markwon="@{activity.markwon}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +65,8 @@
                     android:id="@+id/description_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{video.description}"
+                    app:text="@{activity.currentVideo.description}"
+                    app:markwon="@{activity.markwon}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/author_text"
