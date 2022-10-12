@@ -11,25 +11,24 @@
         android:background="@drawable/circular_button"
         android:src="@drawable/ic_prev" />
 
-    <ImageButton android:id="@id/exo_play"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:contentDescription="@string/play"
-        android:layout_gravity="center"
-        android:visibility="visible"
-        style="@style/ExoMediaButton.Play"
-        android:background="@drawable/circular_button"
-        android:src="@drawable/exo_styled_controls_play" />
+<!--    <ImageButton android:id="@id/exo_play"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:contentDescription="@string/play"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:visibility="visible"-->
+<!--        style="@style/ExoMediaButton.Play"-->
+<!--        android:background="@drawable/circular_button"-->
+<!--        android:src="@drawable/exo_styled_controls_play" />-->
 
-    <ImageButton android:id="@id/exo_pause"
+    <ImageButton
+        android:id="@+id/exo_play_pause"
+        style="@style/ExoMediaButton.Pause"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:contentDescription="@string/play"
-        android:visibility="gone"
         android:layout_gravity="center"
-        style="@style/ExoMediaButton.Play"
         android:background="@drawable/circular_button"
-        android:src="@drawable/exo_styled_controls_pause"/>
+        android:src="@drawable/exo_ic_pause_circle_filled"/>
 
     <ImageButton
         android:id="@id/exo_next"
