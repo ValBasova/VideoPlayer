@@ -58,4 +58,11 @@ dependencies {
     implementation "com.squareup.moshi:moshi-adapters:$version_moshi"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+
+
+    //ExoPlayer
+    def player_version = "2.18.1"
+    implementation "com.google.android.exoplayer:exoplayer-core:$player_version"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$player_version"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$player_version"
 }
