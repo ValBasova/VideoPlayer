@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:show_buffering="when_playing" />
+            app:controller_layout_id="@layout/exo_playback_control_view" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
